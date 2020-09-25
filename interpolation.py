@@ -1,12 +1,13 @@
-from typing import List, TypeVar
+from typing import List, Union, Sequence
 
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.interpolate as spinter
 
-Num =  Union[int, float]
+Num = Union[int, float]
 
-def piecewise_linear(x_data: Sequence[Num], y_data: Sequence[Num], x_to_find: float):
+
+def piecewise_linear(x_data: Sequence[Num], y_data: List[float], x_to_find: float):
     """
     Shows plot for piece-wise linear with given data and the estimated y-value for the given x value.
     Prints the lowest y-value and its corresponding x-value.
