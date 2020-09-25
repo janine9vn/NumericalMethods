@@ -1,11 +1,10 @@
 import sympy
-from sympy import symbols
 from typing import Tuple
 
-x = symbols('x')
+x = sympy.symbols('x')
 
 
-def bisection_root_finder(eqn, low: float, high: float, tolerance: float) -> Tuple[float, int, float]:
+def bisection_root_finder(eqn: sympy.Basic, low: float, high: float, tolerance: float) -> Tuple[float, int, float]:
     """
     Given a single-variable sympy equation with x as the defined symbol, the low end of an interval, the high end of the interval,
     and the tolerance, it will calculate the root contained in the interval using the bisection method.
@@ -42,7 +41,7 @@ def bisection_root_finder(eqn, low: float, high: float, tolerance: float) -> Tup
     return root, iterations
 
 
-def newton_raphson_root_finder(equation, first_guess: float, tolerance: float) -> Tuple[float, int]:
+def newton_raphson_root_finder(equation: sympy.Basic, first_guess: float, tolerance: float) -> Tuple[float, int]:
     """
     Given a single-variable sympy equation with x as the defined symbol, an initial guess, and a tolerance,
     this function will return a tuple containing the root and the iterations taken to find the root.
@@ -61,7 +60,7 @@ def newton_raphson_root_finder(equation, first_guess: float, tolerance: float) -
     return root, iterations
 
 
-def secant_root_finder(eqn, x0: float, x1: float, tolerance: float) -> Tuple[float, int]:
+def secant_root_finder(eqn: sympy.Basic, x0: float, x1: float, tolerance: float) -> Tuple[float, int]:
     """
     Given a sympy equation with x as the symbol, two initial guesses on the x-axis and a tolerance,
     It will find the root using the secant method
