@@ -82,3 +82,54 @@ def exact_data_fit_polynomial(x_data: Sequence[Num], y_data: Sequence[Num], x_to
     print(f"Minimum y-value found was: {y_min}, corresponding x-value was: {x_min}")
 
     return y_found
+
+
+def least_squares_polynomial(x_data: Sequence[Num], y_data: Sequence[Num], x_to_find: Num, polynomial_order: int) -> float:
+    """
+    Given x-data, y-data, an x-value to interpolate, and a polynomial solution order
+    this function will find the least-squares polynomial solution
+    and return the interpolated y-value for the given x-value.
+
+    It will print the coefficients for the resulting polynomial.
+    It will provide a plot of the polynomial, with the original data points, and the interpolated value.
+    Additionally it will print the lowest y-value and its corresponding x-value.
+    """
+    plt.plot(x_data, y_data, 'r+')
+
+    # Solving for the polynomial coefficients
+    a_array = []
+    for x in x_data:
+        inner_temp_array = []
+        for exponent in range(polynomial_order+1):
+            inner_temp_array.append(x**exponent)
+        a_array.append(inner_temp_array)
+    a_array = np.array(a_array)
+    a_array_trans = np.matrix.transpose(a_array)
+    coefficients = np.linalg.solve(a_array_trans.dot(a_array), a_array_trans.dot(y_data))
+    print(f"Coefficients: {coefficients}")
+
+    # Let's find the interpolated y-value
+    y_found = 0
+    for i, coeff in enumerate(coefficients):
+        y_found += coeff*x_to_find**i
+    print(y_found)
+
+    # Iterating through the polynomial to provide a plot
+    x_vals = np.linspace(-1, 1, 1000)
+    y_vals = []
+    for x in x_vals:
+        y_temp = 0
+        for i, coeff in enumerate(coefficients):
+            y_temp += coeff*x**i
+        y_vals.append(y_temp)
+    plt.plot(x_vals, y_vals)
+    plt.plot(x_to_find, y_found, 'g*')
+    plt.title(f"Least-Squares {polynomial_order}-Order Polynomial Interpolation")
+    plt.show()
+
+    # Printing y_min and corresponding x_min
+    y_min = min(y_vals)
+    x_min = x_vals[y_vals.index(min(y_vals))]
+    print(f"Minimum y-value found was: {y_min}, corresponding x-value was: {x_min}")
+
+    return y_found
