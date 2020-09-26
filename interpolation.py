@@ -133,3 +133,32 @@ def least_squares_polynomial(x_data: Sequence[Num], y_data: Sequence[Num], x_to_
     print(f"Minimum y-value found was: {y_min}, corresponding x-value was: {x_min}")
 
     return y_found
+
+
+def cubic_spline(x_data: Sequence[Num], y_data: Sequence[Num], x_to_find: Num) -> float:
+    """
+    Given x_data, y_data, and an x-value to find, this function will return the
+    corresponding y-value using SciPy's cubic spline interpolation.
+    It will display a graph showing the data points, interpolation, and the interpolated value.
+    It will also print the minimum y-value for the interpolation and its corresponding x-value.
+    """
+    plt.plot(x_data, y_data)
+    x_vals = np.linspace(-1, 1, 1000)
+    y_vals = []
+
+    cs = spinter.CubicSpline(x_data, y_data)
+    for x in x_vals:
+        y_vals.append(cs(x))
+    plt.plot(x_vals, y_vals)
+
+    # Let's find the interpolated data point
+    y_found = cs(x_to_find)
+    plt.plot(x_to_find, y_found, 'g*')
+    plt.title("Cubic Spline Interpolation")
+    plt.show()
+
+    y_min = min(y_vals)
+    x_min = x_vals[y_vals.index(min(y_vals))]
+    print(f"Minimum y-value found was: {y_min}, corresponding x-value was: {x_min}")
+
+    return y_found
